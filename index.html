@@ -1,79 +1,299 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Sonelgaz RH</title>
-    <link rel="manifest" href="manifest.json">
-    <meta name="theme-color" content="#121e2d">
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+    <title>بوابة سونلغاز - النظام المتكامل</title>
     <style>
-        :root { --bg: #121e2d; --card: #1e2c3b; --accent: #e67e22; --green: #2ecc71; }
-        body { font-family: 'Cairo', sans-serif; background: var(--bg); color: white; margin: 0; padding: 15px; }
-        .header { text-align: center; margin-bottom: 20px; }
-        .logo { width: 60px; height: 60px; background: linear-gradient(135deg, #f39c12, #d35400); border-radius: 15px; margin: 0 auto 10px; display: flex; align-items: center; justify-content: center; font-size: 25px; }
-        .card { background: var(--card); border-radius: 15px; padding: 15px; margin-bottom: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.3); }
-        .card-title { font-size: 0.9em; color: #bdc3c7; margin-bottom: 10px; display: block; }
-        .inputs { display: flex; gap: 10px; }
-        input { width: 100%; background: #121e2d; border: 1px solid var(--green); color: var(--green); padding: 10px; border-radius: 8px; text-align: center; font-weight: bold; font-size: 1.1em; }
-        .res-big { font-size: 2.5em; color: var(--accent); font-weight: bold; text-align: center; }
-        .medal { background: #15202b; padding: 10px; border-radius: 10px; margin-top: 5px; border-right: 4px solid #555; display: flex; justify-content: space-between; align-items: center; }
+        :root {
+            --primary: #009ee0; --secondary: #f39200; --bg: #030712;
+            --glass: rgba(255, 255, 255, 0.03); --border: rgba(255, 255, 255, 0.1);
+            --text: #f8fafc; --success: #10b981; --danger: #ef4444;
+            --brnz: #cd7f32; --slvr: #94a3b8; --gold: #f1c40f; --vrml: #e74c3c; --dipl: #34495e;
+        }
+
+        body {
+            background: var(--bg);
+            background-image: radial-gradient(at 0% 0%, rgba(0, 158, 224, 0.12) 0px, transparent 50%),
+                              radial-gradient(at 100% 100%, rgba(243, 146, 0, 0.08) 0px, transparent 50%);
+            color: var(--text); font-family: system-ui, sans-serif; margin: 0; padding: 15px; min-height: 100vh;
+        }
+
+        .container { width: 100%; max-width: 550px; margin: 0 auto; }
+        header { text-align: center; margin-bottom: 30px; }
+        .logo { font-size: 38px; font-weight: 900; background: linear-gradient(to bottom, #fff, var(--primary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+
+        .nav { display: flex; gap: 8px; background: var(--glass); padding: 5px; border-radius: 20px; border: 1px solid var(--border); margin-bottom: 25px; backdrop-filter: blur(10px); }
+        .nav-btn { flex: 1; padding: 14px; border-radius: 16px; border: none; background: transparent; color: #64748b; font-weight: 700; cursor: pointer; transition: 0.3s; }
+        .nav-btn.active { background: var(--primary); color: white; box-shadow: 0 8px 20px rgba(0,158,224,0.3); }
+
+        .card { background: rgba(255,255,255,0.05); backdrop-filter: blur(25px); border: 1px solid var(--border); border-radius: 30px; padding: 25px; margin-bottom: 25px; box-shadow: 0 20px 40px rgba(0,0,0,0.3); }
+
+        .input-group { margin-bottom: 15px; flex: 1; }
+        .input-group label { display: block; margin-bottom: 8px; font-size: 13px; color: #94a3b8; text-align: center; }
+        
+        .input-box { width: 100%; padding: 15px; border-radius: 16px; border: 1px solid var(--border); background: rgba(0,0,0,0.3); color: white; text-align: center; font-size: 16px; box-sizing: border-box; }
+        .input-box:focus { border-color: var(--primary); outline: none; background: rgba(0,158,224,0.08); }
+
+        .flex-row { display: flex; gap: 12px; align-items: flex-end; }
+
+        .btn-main { width: 100%; padding: 18px; border-radius: 18px; border: none; background: linear-gradient(135deg, var(--success), #059669); color: white; font-weight: 800; cursor: pointer; margin-top: 15px; box-shadow: 0 10px 20px rgba(16, 185, 129, 0.3); }
+
+        .medals-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-top: 15px; }
+        .medal-box { background: rgba(255,255,255,0.02); border: 1px solid var(--border); border-radius: 20px; padding: 15px; text-align: center; transition: 0.4s; }
+        .medal-box.done { background: rgba(16, 185, 129, 0.08); border-color: var(--success); transform: scale(1.02); }
+        .medal-icon { font-size: 30px; margin-bottom: 8px; display: block; filter: grayscale(1); opacity: 0.5; }
+        .done .medal-icon { filter: grayscale(0); opacity: 1; }
+        .medal-name { font-size: 13px; font-weight: 800; display: block; }
+        .medal-status { font-size: 10px; color: #94a3b8; }
+        .prog-bg { height: 5px; background: rgba(255,255,255,0.05); border-radius: 10px; margin-top: 10px; overflow: hidden; }
+        .prog-fill { height: 100%; border-radius: 10px; transition: 1s; }
+
+        #pin-overlay { position: fixed; inset: 0; background: rgba(3,7,18,0.98); display: none; align-items: center; justify-content: center; z-index: 9999; backdrop-filter: blur(20px); }
+
+        .action-btns { display: flex; gap: 8px; }
+        .btn-edit { background: rgba(0, 158, 224, 0.15); color: var(--primary); padding: 8px 12px; border-radius: 10px; border:none; cursor:pointer; font-weight:600; }
+        .btn-delete { background: rgba(239, 68, 68, 0.15); color: var(--danger); padding: 8px 12px; border-radius: 10px; border:none; cursor:pointer; font-weight:600; }
+
+        .page { display: none; animation: fadeIn 0.4s ease; }
+        .active-page { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body>
-    <div class="header"><div class="logo">⚡</div><h2 style="margin:0; color:#3498db">sonelgaz</h2></div>
-    
-    <div class="card">
-        <span class="card-title">تاريخ الميلاد</span>
-        <div class="inputs">
-            <input type="number" id="by" placeholder="سنة" value="1980">
-            <input type="number" id="bm" placeholder="شهر" value="01">
-            <input type="number" id="bd" placeholder="يوم" value="01">
+
+<div id="pin-overlay">
+    <div class="card" style="width: 280px; text-align: center; border-color: var(--primary);">
+        <h3 style="margin:0 0 10px 0; color:var(--primary)">دخول محمي</h3>
+        <p style="font-size: 12px; color:#94a3b8; margin-bottom: 20px;">أدخل الرمز للتحقق التلقائي</p>
+        <input type="password" id="pin-input" class="input-box" maxlength="4" placeholder="••••" 
+               style="font-size: 30px; letter-spacing: 15px;" oninput="autoVerifyPin(this)">
+        <div id="pin-msg" style="margin-top:15px; font-size:12px; color:#64748b;">في انتظار الرمز...</div>
+        <button class="btn-main" style="background:transparent; box-shadow:none; color:#94a3b8;" onclick="closePin()">إلغاء</button>
+    </div>
+</div>
+
+<div class="container">
+    <header><div class="logo">SONELGAZ</div></header>
+
+    <div class="nav">
+        <button id="tab-view" class="nav-btn active" onclick="switchTab('view')">عرض البيانات</button>
+        <button id="tab-admin" class="nav-btn" onclick="requestAdminAccess()">إضافة عامل</button>
+    </div>
+
+    <div id="page-view" class="page active-page">
+        <div class="card">
+            <label style="display:block; text-align:center; margin-bottom:10px;">اختر الموظف:</label>
+            <select id="worker-select" onchange="loadWorkerData()" class="input-box" style="border-right:5px solid var(--primary);"></select>
+        </div>
+
+        <div id="results-area" style="display: none;">
+            <div class="card" style="text-align: center; border-bottom: 5px solid var(--secondary);">
+                <div id="display-name" style="font-weight: 800; font-size: 24px;"></div>
+                <h2 id="res-years" style="color: var(--secondary); font-size: 48px; margin: 15px 0;">0 سنة</h2>
+                <div id="res-sub" style="font-size: 18px; color: #94a3b8;"></div>
+            </div>
+
+            <div style="text-align:center; color:var(--primary); font-weight:800; margin-bottom:15px;">ساحة الأوسمة الاستحقاقية</div>
+            <div id="medals-grid" class="medals-grid"></div>
+
+            <div class="card" style="text-align: center; background: linear-gradient(135deg, rgba(243, 146, 0, 0.1), transparent); margin-top:20px;">
+                <div style="color: var(--secondary); font-weight: 700; margin-bottom: 10px;">المتبقي على التقاعد (سن 60)</div>
+                <div id="retire-date" style="font-size: 20px; font-family: monospace; letter-spacing: 1px; margin-bottom: 10px;">--/--/----</div>
+                <div id="retire-countdown-full" style="font-weight: 800; font-size: 16px;"></div>
+            </div>
         </div>
     </div>
 
-    <div class="card">
-        <span class="card-title">تاريخ التعيين</span>
-        <div class="inputs">
-            <input type="number" id="ry" placeholder="سنة" value="2005">
-            <input type="number" id="rm" placeholder="شهر" value="05">
-            <input type="number" id="rd" placeholder="يوم" value="10">
+    <div id="page-admin" class="page">
+        <div class="card">
+            <h3 id="admin-title" style="color:var(--secondary); text-align:center; margin-top:0;">إضافة موظف جديد</h3>
+            <input type="hidden" id="edit-id" value="">
+            <div class="input-group">
+                <label>الاسم الكامل</label>
+                <input type="text" id="in-name" class="input-box" onfocus="this.select()">
+            </div>
+            <div class="flex-row">
+                <div class="input-group">
+                    <label>تاريخ الميلاد</label>
+                    <input type="text" id="in-birth" class="input-box" placeholder="DD/MM/YYYY" maxlength="10" onkeyup="formatDate(this)" onfocus="this.select()">
+                </div>
+                <div class="input-group">
+                    <label>تاريخ التعيين</label>
+                    <input type="text" id="in-rec" class="input-box" placeholder="DD/MM/YYYY" maxlength="10" onkeyup="formatDate(this)" onfocus="this.select()">
+                </div>
+            </div>
+            <div class="flex-row">
+                <div class="input-group"><input type="number" id="in-mil-y" class="input-box" placeholder="سنة"><label>سنة عسكرية</label></div>
+                <div class="input-group"><input type="number" id="in-mil-m" class="input-box" placeholder="شهر"><label>أشهر</label></div>
+                <div class="input-group"><input type="number" id="in-mil-d" class="input-box" placeholder="يوم"><label>أيام</label></div>
+            </div>
+            <button class="btn-main" id="save-btn" onclick="saveWorker()">حفظ البيانات</button>
         </div>
+        <div id="admin-list"></div>
     </div>
+</div>
 
-    <div class="card" style="border-top: 3px solid var(--accent);">
-        <span class="card-title">الأقدمية الإجمالية</span>
-        <div class="res-big" id="res">00 سنة</div>
-        <div style="text-align:center; color:#bdc3c7" id="res_sub">0 شهر 0 يوم</div>
-    </div>
+<script>
+    let workers = JSON.parse(localStorage.getItem('sonelgaz_db')) || [];
+    const ADMIN_PIN = "1234";
 
-    <div id="medals_list"></div>
+    function formatDate(i) {
+        let v = i.value.replace(/\D/g,'');
+        if(v.length>2 && v.length<=4) i.value = v.slice(0,2)+'/'+v.slice(2);
+        else if(v.length>4) i.value = v.slice(0,2)+'/'+v.slice(2,4)+'/'+v.slice(4,8);
+    }
 
-    <script>
-        function calc() {
-            let ry = document.getElementById('ry').value, rm = document.getElementById('rm').value, rd = document.getElementById('rd').value;
-            let cy = new Date().getFullYear(), cm = new Date().getMonth()+1, cd = new Date().getDate();
-            
-            let diff = (new Date(cy, cm, cd) - new Date(ry, rm, rd)) / (1000*60*60*24*365.25);
-            let years = Math.floor(diff);
-            
-            document.getElementById('res').innerText = years + " سنة";
-            
-            let medals = [
-                {n:"البرونزية", y:10, c:"#cd7f32"}, {n:"الفضية", y:15, c:"#bdc3c7"},
-                {n:"الذهبية", y:20, c:"#f1c40f"}, {n:"القرمزية", y:25, c:"#e74c3c"}
-            ];
-            
-            let h = "";
-            medals.forEach(m => {
-                let status = years >= m.y ? "<b style='color:#2ecc71'>✓</b>" : `باقي ${m.y - years}`;
-                h += `<div class="medal" style="border-right-color:${m.c}"><span>${m.n} (${m.y}سنة)</span><span>${status}</span></div>`;
-            });
-            document.getElementById('medals_list').innerHTML = h;
+    function parseDate(s) {
+        const p = s.split('/');
+        return p.length===3 ? new Date(p[2], p[1]-1, p[0]) : null;
+    }
+
+    function sortWorkers() {
+        workers.sort((a, b) => parseDate(a.birth) - parseDate(b.birth));
+    }
+
+    function switchTab(t) {
+        document.querySelectorAll('.page').forEach(p => p.classList.remove('active-page'));
+        document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+        document.getElementById('page-'+t).classList.add('active-page');
+        document.getElementById('tab-'+t).classList.add('active');
+        sortWorkers();
+        if(t==='view') updateSelectors();
+        if(t==='admin') renderAdminList();
+    }
+
+    function autoVerifyPin(input) {
+        const msg = document.getElementById('pin-msg');
+        if(input.value.length === 4) {
+            if(input.value === ADMIN_PIN) {
+                msg.innerHTML = "✅ تم التحقق.. جاري الدخول";
+                msg.style.color = "var(--success)";
+                setTimeout(() => { closePin(); switchTab('admin'); }, 500);
+            } else {
+                msg.innerHTML = "❌ الرمز غير صحيح";
+                msg.style.color = "var(--danger)";
+                input.value = "";
+            }
         }
-        document.querySelectorAll('input').forEach(i => i.oninput = calc);
-        calc();
-        if ('serviceWorker' in navigator) { navigator.serviceWorker.register('sw.js'); }
-    </script>
+    }
+
+    function requestAdminAccess() { document.getElementById('pin-overlay').style.display='flex'; document.getElementById('pin-input').focus(); }
+    function closePin() { document.getElementById('pin-overlay').style.display='none'; document.getElementById('pin-input').value=""; }
+
+    function saveWorker() {
+        const id = document.getElementById('edit-id').value;
+        const name = document.getElementById('in-name').value;
+        const b = document.getElementById('in-birth').value;
+        const r = document.getElementById('in-rec').value;
+        if(!name || b.length<10 || r.length<10) return alert("البيانات ناقصة");
+
+        const data = {
+            id: id ? parseInt(id) : Date.now(),
+            name, birth: b, rec: r,
+            milY: parseInt(document.getElementById('in-mil-y').value)||0,
+            milM: parseInt(document.getElementById('in-mil-m').value)||0,
+            milD: parseInt(document.getElementById('in-mil-d').value)||0
+        };
+
+        if(id) workers[workers.findIndex(w => w.id == id)] = data;
+        else workers.push(data);
+        localStorage.setItem('sonelgaz_db', JSON.stringify(workers));
+        alert("تم الحفظ");
+        resetForm();
+        renderAdminList();
+    }
+
+    function resetForm() {
+        document.getElementById('edit-id').value="";
+        ['in-name','in-birth','in-rec','in-mil-y','in-mil-m','in-mil-d'].forEach(i=>document.getElementById(i).value="");
+        document.getElementById('admin-title').innerText = "إضافة موظف جديد";
+    }
+
+    function renderAdminList() {
+        sortWorkers();
+        const list = document.getElementById('admin-list');
+        list.innerHTML = '<h4 style="text-align:center; color:#94a3b8;">العمال المسجلين (بالسن)</h4>';
+        workers.forEach(w => {
+            list.innerHTML += `<div class="card" style="padding:15px; margin-bottom:12px; display:flex; justify-content:space-between; align-items:center;">
+                <div><span style="font-weight:700">${w.name}</span><br><small style="color:#64748b">${w.birth}</small></div>
+                <div class="action-btns">
+                    <button class="btn-edit" onclick="editWorker(${w.id})">تعديل</button>
+                    <button class="btn-delete" onclick="deleteWorker(${w.id})">حذف</button>
+                </div>
+            </div>`;
+        });
+    }
+
+    function editWorker(id) {
+        const w = workers.find(x => x.id == id);
+        document.getElementById('edit-id').value = w.id;
+        document.getElementById('in-name').value = w.name;
+        document.getElementById('in-birth').value = w.birth;
+        document.getElementById('in-rec').value = w.rec;
+        document.getElementById('in-mil-y').value = w.milY;
+        document.getElementById('in-mil-m').value = w.milM;
+        document.getElementById('in-mil-d').value = w.milD;
+        document.getElementById('admin-title').innerText = "تعديل: " + w.name;
+        window.scrollTo({top:0, behavior:'smooth'});
+    }
+
+    function loadWorkerData() {
+        const id = document.getElementById('worker-select').value;
+        if(!id) return document.getElementById('results-area').style.display='none';
+        const w = workers.find(x => x.id == id);
+        document.getElementById('results-area').style.display='block';
+        document.getElementById('display-name').innerText = w.name;
+        
+        const recDate = parseDate(w.rec);
+        const today = new Date();
+        let y = today.getFullYear() - recDate.getFullYear(), m = today.getMonth() - recDate.getMonth(), d = today.getDate() - recDate.getDate();
+        if(d<0){ m--; d+=30; } if(m<0){ y--; m+=12; }
+        let tY = y + w.milY, tM = m + w.milM, tD = d + w.milD;
+        while(tD>=30){ tD-=30; tM++; } while(tM>=12){ tM-=12; tY++; }
+
+        document.getElementById('res-years').innerText = `${tY} سنة`;
+        document.getElementById('res-sub').innerText = `${tM} شهر و ${tD} يوم أقدمية`;
+        
+        renderMedalsGrid(tY, tM, tD);
+        
+        const bDate = parseDate(w.birth);
+        const retD = new Date(bDate); retD.setFullYear(retD.getFullYear()+60);
+        document.getElementById('retire-date').innerText = retD.toLocaleDateString('en-GB');
+        let remY = retD.getFullYear()-today.getFullYear(), remM = retD.getMonth()-today.getMonth(), remDay = retD.getDate()-today.getDate();
+        if(remDay<0){ remM--; remDay+=30; } if(remM<0){ remY--; remM+=12; }
+        document.getElementById('retire-countdown-full').innerText = remY<0 ? "متقاعد" : `المتبقي: ${remY} سنة و ${remM} شهر و ${remDay} يوم`;
+    }
+
+    function renderMedalsGrid(y, m, d) {
+        const grid = document.getElementById('medals-grid'); grid.innerHTML = '';
+        const config = [
+            {n:'البرونزية', y:15, i:'🥉', c:'var(--brnz)'}, {n:'الفضية', y:20, i:'🥈', c:'var(--slvr)'},
+            {n:'الذهبية', y:25, i:'🥇', c:'var(--gold)'}, {n:'القرمزية', y:30, i:'🎖️', c:'var(--vrml)'},
+            {n:'الدبلوم', y:35, i:'📜', c:'var(--dipl)'}, {n:'الدبلوم الكبير', y:40, i:'🎓', c:'var(--dipl)'}
+        ];
+        const curD = (y*365)+(m*30)+d;
+        config.forEach(medal => {
+            const reqD = medal.y*365, prog = Math.min(100, (curD/reqD)*100), done = curD>=reqD;
+            grid.innerHTML += `
+                <div class="medal-box ${done?'done':''}">
+                    <span class="medal-icon">${medal.i}</span>
+                    <span class="medal-name">${medal.n}</span>
+                    <span class="medal-status">${done?'✅ مستحقة': (medal.y-y)+' سنة متبقية'}</span>
+                    <div class="prog-bg"><div class="prog-fill" style="width:${prog}%; background:${done?'var(--success)':medal.c}"></div></div>
+                </div>`;
+        });
+    }
+
+    function updateSelectors() {
+        sortWorkers();
+        const s = document.getElementById('worker-select'); s.innerHTML = '<option value="">-- اختر الموظف --</option>';
+        workers.forEach(w => s.innerHTML += `<option value="${w.id}">${w.name}</option>`);
+    }
+
+    function deleteWorker(id) { if(confirm("حذف؟")) { workers = workers.filter(x => x.id!=id); localStorage.setItem('sonelgaz_db', JSON.stringify(workers)); renderAdminList(); } }
+    updateSelectors();
+</script>
 </body>
 </html>
+
