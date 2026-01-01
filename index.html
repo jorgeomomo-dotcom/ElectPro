@@ -42,18 +42,18 @@
         .btn-main { width: 100%; padding: 18px; border-radius: 18px; border: none; background: linear-gradient(135deg, var(--primary), #d47d00); color: white; font-weight: 800; cursor: pointer; margin-top: 15px; box-shadow: 0 10px 20px rgba(243, 146, 0, 0.3); }
 
         .medals-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-top: 15px; }
-        .medal-box { background: rgba(255,255,255,0.02); border: 1px solid var(--border); border-radius: 20px; padding: 15px; text-align: center; transition: 0.4s; }
+        .medal-box { background: rgba(255,255,255,0.02); border: 1px solid var(--border); border-radius: 20px; padding: 15px; text-align: center; transition: 0.4s; min-height: 160px; display: flex; flex-direction: column; justify-content: center; }
         .medal-box.done { background: rgba(16, 185, 129, 0.08); border-color: var(--success); transform: scale(1.02); }
         .medal-icon { font-size: 30px; margin-bottom: 8px; display: block; filter: grayscale(1); opacity: 0.5; }
         .done .medal-icon { filter: grayscale(0); opacity: 1; }
-        .medal-name { font-size: 13px; font-weight: 800; display: block; }
-        .medal-status { font-size: 10px; color: #94a3b8; }
-        .prog-bg { height: 5px; background: rgba(255,255,255,0.05); border-radius: 10px; margin-top: 10px; overflow: hidden; }
+        .medal-name { font-size: 14px; font-weight: 800; display: block; margin-bottom: 5px; }
+        .medal-status { font-size: 11px; color: #94a3b8; line-height: 1.4; }
+        .medal-remaining { font-size: 10px; color: var(--primary); font-weight: 700; margin-top: 4px; }
+        
+        .prog-bg { height: 5px; background: rgba(255,255,255,0.05); border-radius: 10px; margin-top: 10px; overflow: hidden; width: 100%; }
         .prog-fill { height: 100%; border-radius: 10px; transition: 1s; }
 
         #pin-overlay { position: fixed; inset: 0; background: rgba(3,7,18,0.98); display: none; align-items: center; justify-content: center; z-index: 9999; backdrop-filter: blur(20px); }
-
-        .action-btns { display: flex; gap: 8px; }
         .btn-delete { background: rgba(239, 68, 68, 0.15); color: var(--danger); padding: 8px 12px; border-radius: 10px; border:none; cursor:pointer; font-weight:600; }
 
         .page { display: none; animation: fadeIn 0.4s ease; }
@@ -66,10 +66,8 @@
 <div id="pin-overlay">
     <div class="card" style="width: 280px; text-align: center; border-color: var(--primary);">
         <h3 style="margin:0 0 10px 0; color:var(--primary)">دخول محمي</h3>
-        <p style="font-size: 12px; color:#94a3b8; margin-bottom: 20px;">أدخل الرمز للتحقق التلقائي</p>
-        <input type="password" id="pin-input" class="input-box" maxlength="4" placeholder="••••" 
-               style="font-size: 30px; letter-spacing: 15px;" oninput="autoVerifyPin(this)">
-        <div id="pin-msg" style="margin-top:15px; font-size:12px; color:#64748b;">في انتظار الرمز...</div>
+        <input type="password" id="pin-input" class="input-box" maxlength="4" placeholder="••••" style="font-size: 30px; letter-spacing: 15px;" oninput="autoVerifyPin(this)">
+        <div id="pin-msg" style="margin-top:15px; font-size:12px; color:#64748b;">أدخل الرمز للتحقق</div>
         <button class="btn-main" style="background:transparent; box-shadow:none; color:#94a3b8;" onclick="closePin()">إلغاء</button>
     </div>
 </div>
@@ -109,19 +107,18 @@
     <div id="page-admin" class="page">
         <div class="card">
             <h3 id="admin-title" style="color:var(--primary); text-align:center; margin-top:0;">إضافة موظف جديد</h3>
-            <input type="hidden" id="edit-id" value="">
             <div class="input-group">
                 <label>الاسم الكامل</label>
-                <input type="text" id="in-name" class="input-box" onfocus="this.select()">
+                <input type="text" id="in-name" class="input-box">
             </div>
             <div class="flex-row">
                 <div class="input-group">
                     <label>تاريخ الميلاد</label>
-                    <input type="text" id="in-birth" class="input-box" placeholder="DD/MM/YYYY" maxlength="10" onkeyup="formatDate(this)" onfocus="this.select()">
+                    <input type="text" id="in-birth" class="input-box" placeholder="DD/MM/YYYY" maxlength="10" onkeyup="formatDate(this)">
                 </div>
                 <div class="input-group">
                     <label>تاريخ التعيين</label>
-                    <input type="text" id="in-rec" class="input-box" placeholder="DD/MM/YYYY" maxlength="10" onkeyup="formatDate(this)" onfocus="this.select()">
+                    <input type="text" id="in-rec" class="input-box" placeholder="DD/MM/YYYY" maxlength="10" onkeyup="formatDate(this)">
                 </div>
             </div>
             <div class="flex-row">
@@ -129,7 +126,7 @@
                 <div class="input-group"><input type="number" id="in-mil-m" class="input-box" placeholder="شهر"><label>أشهر</label></div>
                 <div class="input-group"><input type="number" id="in-mil-d" class="input-box" placeholder="يوم"><label>أيام</label></div>
             </div>
-            <button class="btn-main" id="save-btn" onclick="saveWorker()">حفظ البيانات</button>
+            <button class="btn-main" onclick="saveWorker()">حفظ البيانات</button>
         </div>
         <div id="admin-list"></div>
     </div>
@@ -150,32 +147,18 @@
         return p.length===3 ? new Date(p[2], p[1]-1, p[0]) : null;
     }
 
-    function sortWorkers() {
-        workers.sort((a, b) => parseDate(a.birth) - parseDate(b.birth));
-    }
-
     function switchTab(t) {
         document.querySelectorAll('.page').forEach(p => p.classList.remove('active-page'));
         document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
         document.getElementById('page-'+t).classList.add('active-page');
         document.getElementById('tab-'+t).classList.add('active');
-        sortWorkers();
         if(t==='view') updateSelectors();
         if(t==='admin') renderAdminList();
     }
 
     function autoVerifyPin(input) {
-        const msg = document.getElementById('pin-msg');
-        if(input.value.length === 4) {
-            if(input.value === ADMIN_PIN) {
-                msg.innerHTML = "✅ تم التحقق.. جاري الدخول";
-                msg.style.color = "var(--success)";
-                setTimeout(() => { closePin(); switchTab('admin'); }, 500);
-            } else {
-                msg.innerHTML = "❌ الرمز غير صحيح";
-                msg.style.color = "var(--danger)";
-                input.value = "";
-            }
+        if(input.value === ADMIN_PIN) {
+            closePin(); switchTab('admin');
         }
     }
 
@@ -183,71 +166,56 @@
     function closePin() { document.getElementById('pin-overlay').style.display='none'; document.getElementById('pin-input').value=""; }
 
     function saveWorker() {
-        const id = document.getElementById('edit-id').value;
         const name = document.getElementById('in-name').value;
         const b = document.getElementById('in-birth').value;
         const r = document.getElementById('in-rec').value;
         if(!name || b.length<10 || r.length<10) return alert("البيانات ناقصة");
 
-        const data = {
-            id: id ? parseInt(id) : Date.now(),
-            name, birth: b, rec: r,
+        workers.push({
+            id: Date.now(), name, birth: b, rec: r,
             milY: parseInt(document.getElementById('in-mil-y').value)||0,
             milM: parseInt(document.getElementById('in-mil-m').value)||0,
             milD: parseInt(document.getElementById('in-mil-d').value)||0
-        };
-
-        if(id) workers[workers.findIndex(w => w.id == id)] = data;
-        else workers.push(data);
+        });
         localStorage.setItem('sonelgaz_db', JSON.stringify(workers));
         alert("تم الحفظ");
-        resetForm();
+        ['in-name','in-birth','in-rec','in-mil-y','in-mil-m','in-mil-d'].forEach(i=>document.getElementById(i).value="");
         renderAdminList();
     }
 
-    function resetForm() {
-        document.getElementById('edit-id').value="";
-        ['in-name','in-birth','in-rec','in-mil-y','in-mil-m','in-mil-d'].forEach(i=>document.getElementById(i).value="");
-        document.getElementById('admin-title').innerText = "إضافة موظف جديد";
-    }
-
     function renderAdminList() {
-        sortWorkers();
+        workers.sort((a, b) => parseDate(a.birth) - parseDate(b.birth));
         const list = document.getElementById('admin-list');
         list.innerHTML = '<h4 style="text-align:center; color:#94a3b8;">العمال مرتبين من الأكبر سنا إلى الاصغر</h4>';
         workers.forEach(w => {
             list.innerHTML += `<div class="card" style="padding:15px; margin-bottom:12px; display:flex; justify-content:space-between; align-items:center;">
                 <div><span style="font-weight:700">${w.name}</span><br><small style="color:#64748b">${w.birth}</small></div>
-                <div class="action-btns">
-                    <button class="btn-delete" onclick="deleteWorker(${w.id})">حذف</button>
-                </div>
+                <button class="btn-delete" onclick="deleteWorker(${w.id})">حذف</button>
             </div>`;
         });
     }
 
-    function loadWorkerData(targetId = null) {
-        const id = targetId || document.getElementById('worker-select').value;
+    function loadWorkerData() {
+        const id = document.getElementById('worker-select').value;
         if(!id) return document.getElementById('results-area').style.display='none';
         
-        document.getElementById('worker-select').value = id;
-
         const w = workers.find(x => x.id == id);
-        if(!w) return;
-
         document.getElementById('results-area').style.display='block';
         document.getElementById('display-name').innerText = w.name;
         
         const recDate = parseDate(w.rec);
         const today = new Date();
+        
         let y = today.getFullYear() - recDate.getFullYear(), m = today.getMonth() - recDate.getMonth(), d = today.getDate() - recDate.getDate();
         if(d<0){ m--; d+=30; } if(m<0){ y--; m+=12; }
+        
         let tY = y + w.milY, tM = m + w.milM, tD = d + w.milD;
         while(tD>=30){ tD-=30; tM++; } while(tM>=12){ tM-=12; tY++; }
 
         document.getElementById('res-years').innerText = `${tY} سنة`;
         document.getElementById('res-sub').innerText = `${tM} شهر و ${tD} يوم أقدمية`;
         
-        renderMedalsGrid(tY, tM, tD);
+        renderMedalsGrid(w, tY, tM, tD);
         
         const bDate = parseDate(w.birth);
         const retD = new Date(bDate); retD.setFullYear(retD.getFullYear()+60);
@@ -257,41 +225,58 @@
         document.getElementById('retire-countdown-full').innerText = remY<0 ? "متقاعد" : `المتبقي: ${remY} سنة و ${remM} شهر و ${remDay} يوم`;
     }
 
-    function renderMedalsGrid(y, m, d) {
+    function renderMedalsGrid(worker, curY, curM, curD) {
         const grid = document.getElementById('medals-grid'); grid.innerHTML = '';
+        const today = new Date();
         const config = [
             {n:'البرونزية', y:15, i:'🥉', c:'var(--brnz)'}, {n:'الفضية', y:20, i:'🥈', c:'var(--slvr)'},
             {n:'الذهبية', y:25, i:'🥇', c:'var(--gold)'}, {n:'القرمزية', y:30, i:'🎖️', c:'var(--vrml)'},
             {n:'الدبلوم', y:35, i:'📜', c:'var(--dipl)'}, {n:'الدبلوم الكبير', y:40, i:'🎓', c:'var(--dipl)'}
         ];
-        const curD = (y*365)+(m*30)+d;
+
         config.forEach(medal => {
-            const reqD = medal.y*365, prog = Math.min(100, (curD/reqD)*100), done = curD>=reqD;
+            const recDate = parseDate(worker.rec);
+            let dueDate = new Date(recDate);
+            dueDate.setFullYear(dueDate.getFullYear() + medal.y);
+            dueDate.setFullYear(dueDate.getFullYear() - worker.milY);
+            dueDate.setMonth(dueDate.getMonth() - worker.milM);
+            dueDate.setDate(dueDate.getDate() - worker.milD);
+
+            const totalDays = (curY*365)+(curM*30)+curD;
+            const reqDays = medal.y*365;
+            const prog = Math.min(100, (totalDays/reqDays)*100);
+            const done = totalDays>=reqDays;
+
+            let remainingText = "";
+            if(!done) {
+                let remY = dueDate.getFullYear() - today.getFullYear();
+                let remM = dueDate.getMonth() - today.getMonth();
+                let remD = dueDate.getDate() - today.getDate();
+                if(remD < 0) { remM--; remD += 30; }
+                if(remM < 0) { remY--; remM += 12; }
+                remainingText = `<div class="medal-remaining">متبقي: ${remY}س ${remM}ش ${remD}ي</div>`;
+            }
+
             grid.innerHTML += `
                 <div class="medal-box ${done?'done':''}">
                     <span class="medal-icon">${medal.i}</span>
                     <span class="medal-name">${medal.n}</span>
-                    <span class="medal-status">${done?'✅ مستحقة': (medal.y-y)+' سنة متبقية'}</span>
+                    <span class="medal-status">${done ? '✅ مستحقة' : 'الاستحقاق: ' + dueDate.toLocaleDateString('en-GB')}</span>
+                    ${remainingText}
                     <div class="prog-bg"><div class="prog-fill" style="width:${prog}%; background:${done?'var(--success)':medal.c}"></div></div>
                 </div>`;
         });
     }
 
     function updateSelectors() {
-        sortWorkers();
+        workers.sort((a, b) => parseDate(a.birth) - parseDate(b.birth));
         const s = document.getElementById('worker-select'); s.innerHTML = '<option value="">-- اختر الموظف --</option>';
         workers.forEach(w => s.innerHTML += `<option value="${w.id}">${w.name}</option>`);
     }
 
     function deleteWorker(id) { if(confirm("حذف؟")) { workers = workers.filter(x => x.id!=id); localStorage.setItem('sonelgaz_db', JSON.stringify(workers)); renderAdminList(); } }
 
-    window.onload = function() {
-        updateSelectors();
-        const defaultWorker = workers.find(w => w.name.includes("مهملي عبد الحكيم"));
-        if(defaultWorker) {
-            loadWorkerData(defaultWorker.id);
-        }
-    };
+    window.onload = updateSelectors;
 </script>
 </body>
 </html>
