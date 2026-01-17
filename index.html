@@ -1,283 +1,377 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>بوابة سونلغاز - النظام المتكامل</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ProElec V12 | متصل بالسحابة ☁️</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
     <style>
-        :root {
-            --primary: #f39200; 
-            --secondary: #ffb74d; 
-            --bg: #030712;
-            --glass: rgba(255, 255, 255, 0.03); --border: rgba(255, 255, 255, 0.1);
-            --text: #f8fafc; --success: #10b981; --danger: #ef4444;
-            --brnz: #cd7f32; --slvr: #94a3b8; --gold: #f1c40f; --vrml: #e74c3c; --dipl: #34495e;
-        }
-
-        body {
-            background: var(--bg);
-            background-image: radial-gradient(at 0% 0%, rgba(243, 146, 0, 0.15) 0px, transparent 50%),
-                              radial-gradient(at 100% 100%, rgba(255, 183, 77, 0.08) 0px, transparent 50%);
-            color: var(--text); font-family: system-ui, sans-serif; margin: 0; padding: 15px; min-height: 100vh;
-        }
-
-        .container { width: 100%; max-width: 550px; margin: 0 auto; }
-        header { text-align: center; margin-bottom: 30px; }
-        .logo { font-size: 38px; font-weight: 900; background: linear-gradient(to bottom, #fff, var(--primary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-
-        .nav { display: flex; gap: 8px; background: var(--glass); padding: 5px; border-radius: 20px; border: 1px solid var(--border); margin-bottom: 25px; backdrop-filter: blur(10px); }
-        .nav-btn { flex: 1; padding: 14px; border-radius: 16px; border: none; background: transparent; color: #64748b; font-weight: 700; cursor: pointer; transition: 0.3s; }
-        .nav-btn.active { background: var(--primary); color: white; box-shadow: 0 8px 20px rgba(243, 146, 0, 0.3); }
-
-        .card { background: rgba(255,255,255,0.05); backdrop-filter: blur(25px); border: 1px solid var(--border); border-radius: 30px; padding: 25px; margin-bottom: 25px; box-shadow: 0 20px 40px rgba(0,0,0,0.3); }
-
-        .input-group { margin-bottom: 15px; flex: 1; }
-        .input-group label { display: block; margin-bottom: 8px; font-size: 13px; color: #94a3b8; text-align: center; }
+        /* نفس التصميم السابق (لم يتغير) */
+        :root { --bg-color: #e0e5ec; --text-main: #2d3748; --primary: #4d79ff; --success: #219653; --danger: #eb5757; --gold: #f59e0b; --shadow-light: -9px -9px 16px rgba(255,255,255, 0.8); --shadow-dark: 9px 9px 16px rgba(163,177,198, 0.6); --inner-shadow: inset 6px 6px 10px 0 rgba(163,177,198, 0.7), inset -6px -6px 10px 0 rgba(255,255,255, 0.8); }
+        * { box-sizing: border-box; margin: 0; padding: 0; outline: none; -webkit-tap-highlight-color: transparent; }
+        body { background-color: var(--bg-color); font-family: 'Cairo', sans-serif; color: var(--text-main); min-height: 100vh; padding-bottom: 80px; }
+        .neu-card { background-color: var(--bg-color); box-shadow: var(--shadow-dark), var(--shadow-light); border-radius: 20px; padding: 20px; margin-bottom: 20px; border: 1px solid rgba(255,255,255,0.2); position: relative;}
+        .neu-input { width: 100%; border: none; background: var(--bg-color); box-shadow: var(--inner-shadow); border-radius: 12px; padding: 12px 15px; font-family: 'Cairo'; font-size: 14px; transition: 0.3s; }
+        .neu-btn { border: none; background: var(--bg-color); box-shadow: var(--shadow-dark), var(--shadow-light); border-radius: 12px; padding: 10px 20px; color: var(--primary); font-weight: 700; font-family: 'Cairo'; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; gap: 8px; }
+        .neu-btn:active { box-shadow: var(--inner-shadow); transform: scale(0.98); }
+        .neu-btn.primary { color: var(--primary); } .neu-btn.danger { color: var(--danger); } .neu-btn.success { color: var(--success); } .neu-btn.small { padding: 6px 12px; font-size: 12px; border-radius: 8px; }
+        .container { max-width: 800px; margin: 0 auto; padding: 15px; }
+        .tabs { display: flex; gap: 15px; margin-bottom: 25px; overflow-x: auto; padding: 10px 5px; }
+        .tab-btn { flex: 1; min-width: 100px; white-space: nowrap; }
+        .tab-btn.active { box-shadow: var(--inner-shadow); color: var(--primary); }
+        .form-row { display: flex; gap: 10px; margin-bottom: 15px; align-items: flex-end; }
+        .form-group { flex: 1; }
+        label { display: block; margin-bottom: 6px; font-size: 12px; font-weight: 600; color: #718096; }
+        .table-wrapper { overflow-x: auto; border-radius: 12px; background: rgba(255,255,255,0.4); padding: 5px; }
+        table { width: 100%; border-collapse: collapse; min-width: 600px; }
+        th { text-align: right; padding: 12px; color: #718096; font-size: 13px; border-bottom: 2px solid rgba(0,0,0,0.05); }
+        td { padding: 10px; font-size: 14px; border-bottom: 1px solid rgba(0,0,0,0.05); vertical-align: middle; }
+        .profit-badge { background: #dcfce7; color: #166534; padding: 2px 8px; border-radius: 10px; font-size: 11px; font-weight: bold; }
+        .hidden { display: none !important; }
+        .loading-overlay { position: fixed; top:0; left:0; width:100%; height:100%; background:rgba(224,229,236,0.9); z-index:999; display:flex; justify-content:center; align-items:center; flex-direction:column; }
         
-        .input-box { width: 100%; padding: 15px; border-radius: 16px; border: 1px solid var(--border); background: rgba(0,0,0,0.3); color: white; text-align: center; font-size: 16px; box-sizing: border-box; }
-        .input-box:focus { border-color: var(--primary); outline: none; background: rgba(243, 146, 0, 0.08); }
+        /* مؤشر حالة الاتصال */
+        .status-indicator { position: fixed; bottom: 20px; left: 20px; padding: 8px 15px; border-radius: 20px; font-size: 12px; font-weight: bold; z-index: 100; box-shadow: var(--shadow-dark); }
+        .status-online { background: #dcfce7; color: #166534; }
+        .status-offline { background: #fee2e2; color: #991b1b; }
 
-        .flex-row { display: flex; gap: 12px; align-items: flex-end; }
-
-        .btn-main { width: 100%; padding: 18px; border-radius: 18px; border: none; background: linear-gradient(135deg, var(--primary), #d47d00); color: white; font-weight: 800; cursor: pointer; margin-top: 15px; box-shadow: 0 10px 20px rgba(243, 146, 0, 0.3); }
-
-        .medals-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-top: 15px; }
-        .medal-box { background: rgba(255,255,255,0.02); border: 1px solid var(--border); border-radius: 20px; padding: 15px; text-align: center; transition: 0.4s; min-height: 160px; display: flex; flex-direction: column; justify-content: center; }
-        .medal-box.done { background: rgba(16, 185, 129, 0.08); border-color: var(--success); transform: scale(1.02); }
-        .medal-icon { font-size: 30px; margin-bottom: 8px; display: block; filter: grayscale(1); opacity: 0.5; }
-        .done .medal-icon { filter: grayscale(0); opacity: 1; }
-        .medal-name { font-size: 14px; font-weight: 800; display: block; margin-bottom: 5px; }
-        .medal-status { font-size: 11px; color: #94a3b8; line-height: 1.4; }
-        .medal-remaining { font-size: 10px; color: var(--primary); font-weight: 700; margin-top: 4px; }
-        
-        .prog-bg { height: 5px; background: rgba(255,255,255,0.05); border-radius: 10px; margin-top: 10px; overflow: hidden; width: 100%; }
-        .prog-fill { height: 100%; border-radius: 10px; transition: 1s; }
-
-        #pin-overlay { position: fixed; inset: 0; background: rgba(3,7,18,0.98); display: none; align-items: center; justify-content: center; z-index: 9999; backdrop-filter: blur(20px); }
-        .btn-delete { background: rgba(239, 68, 68, 0.15); color: var(--danger); padding: 8px 12px; border-radius: 10px; border:none; cursor:pointer; font-weight:600; }
-
-        .page { display: none; animation: fadeIn 0.4s ease; }
-        .active-page { display: block; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        @media print { .no-print, .neu-btn, .tabs, .status-indicator { display: none !important; } body { background: white; } .neu-card { box-shadow: none; border: none; } }
     </style>
 </head>
 <body>
 
-<div id="pin-overlay">
-    <div class="card" style="width: 280px; text-align: center; border-color: var(--primary);">
-        <h3 style="margin:0 0 10px 0; color:var(--primary)">دخول محمي</h3>
-        <input type="password" id="pin-input" class="input-box" maxlength="4" placeholder="••••" style="font-size: 30px; letter-spacing: 15px;" oninput="autoVerifyPin(this)">
-        <div id="pin-msg" style="margin-top:15px; font-size:12px; color:#64748b;">أدخل الرمز للتحقق</div>
-        <button class="btn-main" style="background:transparent; box-shadow:none; color:#94a3b8;" onclick="closePin()">إلغاء</button>
-    </div>
+<div id="loader" class="loading-overlay">
+    <i class="fa-solid fa-cloud-arrow-down fa-3x" style="color:var(--primary); margin-bottom:20px;"></i>
+    <p>جاري تحميل بياناتك من السحابة...</p>
+</div>
+
+<div id="statusIndicator" class="status-indicator status-online hidden">
+    <i class="fa-solid fa-wifi"></i> متصل
 </div>
 
 <div class="container">
-    <header><div class="logo">SONELGAZ</div></header>
-
-    <div class="nav">
-        <button id="tab-view" class="nav-btn active" onclick="switchTab('view')">عرض البيانات</button>
-        <button id="tab-admin" class="nav-btn" onclick="requestAdminAccess()">إضافة عامل</button>
-    </div>
-
-    <div id="page-view" class="page active-page">
-        <div class="card">
-            <label style="display:block; text-align:center; margin-bottom:10px;">اختر الموظف:</label>
-            <select id="worker-select" onchange="loadWorkerData()" class="input-box" style="border-right:5px solid var(--primary);"></select>
+    <div class="app-header" style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
+        <div>
+            <h1 style="color:var(--primary); font-size:22px;"><i class="fa-solid fa-bolt"></i> ProElec <span style="font-size:12px; color:var(--success);">Cloud</span></h1>
         </div>
-
-        <div id="results-area" style="display: none;">
-            <div class="card" style="text-align: center; border-bottom: 5px solid var(--primary);">
-                <div id="display-name" style="font-weight: 800; font-size: 24px;"></div>
-                <h2 id="res-years" style="color: var(--primary); font-size: 48px; margin: 15px 0;">0 سنة</h2>
-                <div id="res-sub" style="font-size: 18px; color: #94a3b8;"></div>
-            </div>
-
-            <div style="text-align:center; color:var(--primary); font-weight:800; margin-bottom:15px;">ساحة الأوسمة الاستحقاقية</div>
-            <div id="medals-grid" class="medals-grid"></div>
-
-            <div class="card" style="text-align: center; background: linear-gradient(135deg, rgba(243, 146, 0, 0.1), transparent); margin-top:20px;">
-                <div style="color: var(--primary); font-weight: 700; margin-bottom: 10px;">المتبقي على التقاعد (سن 60)</div>
-                <div id="retire-date" style="font-size: 20px; font-family: monospace; letter-spacing: 1px; margin-bottom: 10px;">--/--/----</div>
-                <div id="retire-countdown-full" style="font-weight: 800; font-size: 16px;"></div>
-            </div>
+        <div class="no-print">
+            <button class="neu-btn" id="saveBtn" onclick="forceSave()" title="حفظ الآن">
+                <i class="fa-solid fa-floppy-disk"></i>
+            </button>
         </div>
     </div>
 
-    <div id="page-admin" class="page">
-        <div class="card">
-            <h3 id="admin-title" style="color:var(--primary); text-align:center; margin-top:0;">إضافة موظف جديد</h3>
-            <div class="input-group">
-                <label>الاسم الكامل</label>
-                <input type="text" id="in-name" class="input-box">
-            </div>
-            <div class="flex-row">
-                <div class="input-group">
-                    <label>تاريخ الميلاد</label>
-                    <input type="text" id="in-birth" class="input-box" placeholder="DD/MM/YYYY" maxlength="10" onkeyup="formatDate(this)">
+    <div class="tabs no-print">
+        <button class="neu-btn tab-btn active" onclick="switchTab('dashboard')"><i class="fa-solid fa-calculator"></i> الفوترة</button>
+        <button class="neu-btn tab-btn" onclick="switchTab('catalog')"><i class="fa-solid fa-boxes-stacked"></i> المخزن</button>
+        <button class="neu-btn tab-btn" onclick="switchTab('customers')"><i class="fa-solid fa-users"></i> الزبائن</button>
+    </div>
+
+    <div id="dashboard-view">
+        <div class="neu-card">
+            <div class="form-row">
+                <div class="form-group" style="flex:2">
+                    <label>الزبون / المشروع</label>
+                    <select id="customerSelect" class="neu-input" onchange="window.app.loadCustomerData()">
+                        <option value="">-- اختر المشروع --</option>
+                    </select>
                 </div>
-                <div class="input-group">
-                    <label>تاريخ التعيين</label>
-                    <input type="text" id="in-rec" class="input-box" placeholder="DD/MM/YYYY" maxlength="10" onkeyup="formatDate(this)">
+                <div class="form-group">
+                    <label>&nbsp;</label>
+                    <button class="neu-btn" onclick="window.app.addNewCustomer()"><i class="fa-solid fa-plus"></i></button>
                 </div>
             </div>
-            <div class="flex-row">
-                <div class="input-group"><input type="number" id="in-mil-y" class="input-box" placeholder="سنة"><label>سنة عسكرية</label></div>
-                <div class="input-group"><input type="number" id="in-mil-m" class="input-box" placeholder="شهر"><label>أشهر</label></div>
-                <div class="input-group"><input type="number" id="in-mil-d" class="input-box" placeholder="يوم"><label>أيام</label></div>
-            </div>
-            <button class="btn-main" onclick="saveWorker()">حفظ البيانات</button>
         </div>
-        <div id="admin-list"></div>
+
+        <div class="neu-card no-print">
+            <h3>إضافة بند</h3>
+            <div id="quickCatalog" style="display:flex; gap:10px; overflow-x:auto; padding:10px 0; margin-bottom:15px;"></div>
+            
+            <div class="form-row">
+                <input type="text" id="itemName" class="neu-input" placeholder="البيان" style="flex:2">
+                <input type="number" id="itemQty" class="neu-input" placeholder="العدد" value="1" style="flex:1">
+            </div>
+            <div class="form-row">
+                <input type="number" id="itemPrice" class="neu-input" placeholder="سعر البيع">
+                <button class="neu-btn primary" onclick="window.app.addItem()"><i class="fa-solid fa-check"></i> إضافة</button>
+            </div>
+        </div>
+
+        <div class="neu-card">
+            <div style="display:flex; justify-content:space-between; margin-bottom:10px;">
+                <h3>الفاتورة</h3>
+                <span id="itemsCount" style="font-size:12px; color:#888;">0 بنود</span>
+            </div>
+            <div class="table-wrapper">
+                <table id="invoiceTable">
+                    <thead><tr><th>البيان</th><th>العدد</th><th>السعر</th><th>الإجمالي</th><th class="no-print">حذف</th></tr></thead>
+                    <tbody id="invoiceBody"></tbody>
+                </table>
+            </div>
+            <div style="margin-top:20px; display:flex; justify-content:space-between; font-size:18px; font-weight:bold;">
+                <span>المجموع:</span>
+                <span id="grandTotalDisplay">0.00 د.ج</span>
+            </div>
+        </div>
+    </div>
+
+    <div id="catalog-view" class="hidden">
+        <div class="neu-card">
+            <h3>إدارة المخزن</h3>
+            <div class="form-row">
+                <input type="text" id="catName" class="neu-input" placeholder="اسم المادة">
+                <input type="number" id="catPrice" class="neu-input" placeholder="سعر البيع">
+                <button class="neu-btn primary" onclick="window.app.addToCatalog()">حفظ</button>
+            </div>
+            <div class="table-wrapper">
+                <table id="catalogTable">
+                    <thead><tr><th>المادة</th><th>السعر</th><th>حذف</th></tr></thead>
+                    <tbody id="catalogBody"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div id="customers-view" class="hidden">
+        <div class="neu-card"><h3>قائمة الزبائن</h3><div id="customersList"></div></div>
     </div>
 </div>
 
-<script>
-    let workers = JSON.parse(localStorage.getItem('sonelgaz_db')) || [];
-    const ADMIN_PIN = "1234";
+<script type="module">
+    // 1. استيراد مكتبات فايربيس من الانترنت
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+    import { getFirestore, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+const firebaseConfig = {
 
-    function formatDate(i) {
-        let v = i.value.replace(/\D/g,'');
-        if(v.length>2 && v.length<=4) i.value = v.slice(0,2)+'/'+v.slice(2);
-        else if(v.length>4) i.value = v.slice(0,2)+'/'+v.slice(2,4)+'/'+v.slice(4,8);
-    }
+  apiKey: "AIzaSyBYYgIJsIO7KwfQp3w4CMRM73F7qC_4qzk",
 
-    function parseDate(s) {
-        const p = s.split('/');
-        return p.length===3 ? new Date(p[2], p[1]-1, p[0]) : null;
-    }
+  authDomain: "proelec-bf23f.firebaseapp.com",
 
-    function switchTab(t) {
-        document.querySelectorAll('.page').forEach(p => p.classList.remove('active-page'));
-        document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-        document.getElementById('page-'+t).classList.add('active-page');
-        document.getElementById('tab-'+t).classList.add('active');
-        if(t==='view') updateSelectors();
-        if(t==='admin') renderAdminList();
-    }
+  projectId: "proelec-bf23f",
 
-    function autoVerifyPin(input) {
-        if(input.value === ADMIN_PIN) {
-            closePin(); switchTab('admin');
+  storageBucket: "proelec-bf23f.firebasestorage.app",
+
+  messagingSenderId: "691873146420",
+
+  appId: "1:691873146420:web:e822e57bd592bd47880c61",
+
+  measurementId: "G-KPE5PH6K8Z"
+};
+    // -----------------------------------------------------------------------
+
+    // تهيئة فايربيس
+    const app = initializeApp(firebaseConfig);
+    const dbFirestore = getFirestore(app);
+
+    // متغيرات التطبيق
+    let localDB = {
+        customers: [],
+        catalog: [
+            {id: 1, name: 'تركيب مأخذ (Prise)', price: 600},
+            {id: 2, name: 'نقطة إنارة (Simple)', price: 500}
+        ],
+        invoices: {},
+        payments: {}
+    };
+    let currentCustId = null;
+
+    // --- دوال قاعدة البيانات (Firestore) ---
+    
+    // دالة جلب البيانات عند الفتح
+    async function loadFromCloud() {
+        const docRef = doc(dbFirestore, "app_data", "main_db"); // اسم الملف في القاعدة
+        try {
+            const docSnap = await getDoc(docRef);
+            if (docSnap.exists()) {
+                localDB = docSnap.data();
+                console.log("تم تحميل البيانات من السحابة!");
+            } else {
+                console.log("لا توجد بيانات سابقة، جاري إنشاء قاعدة جديدة...");
+                saveToCloud(); // إنشاء ملف جديد
+            }
+        } catch (error) {
+            console.error("خطأ في الاتصال:", error);
+            alert("تنبيه: تعذر الاتصال بالسيرفر. تأكد من الإنترنت.");
+        } finally {
+            document.getElementById('loader').classList.add('hidden');
+            renderUI();
         }
     }
 
-    function requestAdminAccess() { document.getElementById('pin-overlay').style.display='flex'; document.getElementById('pin-input').focus(); }
-    function closePin() { document.getElementById('pin-overlay').style.display='none'; document.getElementById('pin-input').value=""; }
-
-    function saveWorker() {
-        const name = document.getElementById('in-name').value;
-        const b = document.getElementById('in-birth').value;
-        const r = document.getElementById('in-rec').value;
-        if(!name || b.length<10 || r.length<10) return alert("البيانات ناقصة");
-
-        workers.push({
-            id: Date.now(), name, birth: b, rec: r,
-            milY: parseInt(document.getElementById('in-mil-y').value)||0,
-            milM: parseInt(document.getElementById('in-mil-m').value)||0,
-            milD: parseInt(document.getElementById('in-mil-d').value)||0
-        });
-        localStorage.setItem('sonelgaz_db', JSON.stringify(workers));
-        alert("تم الحفظ");
-        ['in-name','in-birth','in-rec','in-mil-y','in-mil-m','in-mil-d'].forEach(i=>document.getElementById(i).value="");
-        renderAdminList();
+    // دالة الحفظ في السحابة
+    async function saveToCloud() {
+        const statusEl = document.getElementById('statusIndicator');
+        statusEl.classList.remove('hidden');
+        statusEl.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> جاري الحفظ...';
+        
+        try {
+            await setDoc(doc(dbFirestore, "app_data", "main_db"), localDB);
+            statusEl.innerHTML = '<i class="fa-solid fa-check"></i> تم الحفظ';
+            statusEl.className = 'status-indicator status-online';
+            setTimeout(() => statusEl.classList.add('hidden'), 2000);
+        } catch (error) {
+            console.error("خطأ في الحفظ:", error);
+            statusEl.innerHTML = '<i class="fa-solid fa-triangle-exclamation"></i> فشل الحفظ!';
+            statusEl.className = 'status-indicator status-offline';
+        }
     }
 
-    function renderAdminList() {
-        workers.sort((a, b) => parseDate(a.birth) - parseDate(b.birth));
-        const list = document.getElementById('admin-list');
-        list.innerHTML = '<h4 style="text-align:center; color:#94a3b8;">العمال مرتبين من الأكبر سنا إلى الاصغر</h4>';
-        workers.forEach(w => {
-            list.innerHTML += `<div class="card" style="padding:15px; margin-bottom:12px; display:flex; justify-content:space-between; align-items:center;">
-                <div><span style="font-weight:700">${w.name}</span><br><small style="color:#64748b">${w.birth}</small></div>
-                <button class="btn-delete" onclick="deleteWorker(${w.id})">حذف</button>
-            </div>`;
-        });
-    }
+    // --- منطق التطبيق (مشابه للكود السابق) ---
+    
+    window.app = {
+        addNewCustomer: () => {
+            const name = prompt('اسم المشروع الجديد:');
+            if(!name) return;
+            const newC = { id: Date.now(), name: name };
+            localDB.customers.push(newC);
+            localDB.invoices[newC.id] = [];
+            currentCustId = newC.id;
+            saveToCloud();
+            renderUI();
+        },
 
-    function loadWorkerData() {
-        const id = document.getElementById('worker-select').value;
-        if(!id) return document.getElementById('results-area').style.display='none';
-        
-        const w = workers.find(x => x.id == id);
-        document.getElementById('results-area').style.display='block';
-        document.getElementById('display-name').innerText = w.name;
-        
-        const recDate = parseDate(w.rec);
-        const today = new Date();
-        
-        let y = today.getFullYear() - recDate.getFullYear(), m = today.getMonth() - recDate.getMonth(), d = today.getDate() - recDate.getDate();
-        if(d<0){ m--; d+=30; } if(m<0){ y--; m+=12; }
-        
-        let tY = y + w.milY, tM = m + w.milM, tD = d + w.milD;
-        while(tD>=30){ tD-=30; tM++; } while(tM>=12){ tM-=12; tY++; }
+        loadCustomerData: () => {
+            currentCustId = document.getElementById('customerSelect').value;
+            if(currentCustId) {
+                currentCustId = parseInt(currentCustId);
+                renderInvoiceTable();
+            }
+        },
 
-        document.getElementById('res-years').innerText = `${tY} سنة`;
-        document.getElementById('res-sub').innerText = `${tM} شهر و ${tD} يوم أقدمية`;
-        
-        renderMedalsGrid(w, tY, tM, tD);
-        
-        const bDate = parseDate(w.birth);
-        const retD = new Date(bDate); retD.setFullYear(retD.getFullYear()+60);
-        document.getElementById('retire-date').innerText = retD.toLocaleDateString('en-GB');
-        let remY = retD.getFullYear()-today.getFullYear(), remM = retD.getMonth()-today.getMonth(), remDay = retD.getDate()-today.getDate();
-        if(remDay<0){ remM--; remDay+=30; } if(remM<0){ remY--; remM+=12; }
-        document.getElementById('retire-countdown-full').innerText = remY<0 ? "متقاعد" : `المتبقي: ${remY} سنة و ${remM} شهر و ${remDay} يوم`;
-    }
-
-    function renderMedalsGrid(worker, curY, curM, curD) {
-        const grid = document.getElementById('medals-grid'); grid.innerHTML = '';
-        const today = new Date();
-        const config = [
-            {n:'البرونزية', y:15, i:'🥉', c:'var(--brnz)'}, {n:'الفضية', y:20, i:'🥈', c:'var(--slvr)'},
-            {n:'الذهبية', y:25, i:'🥇', c:'var(--gold)'}, {n:'القرمزية', y:30, i:'🎖️', c:'var(--vrml)'},
-            {n:'الدبلوم', y:35, i:'📜', c:'var(--dipl)'}, {n:'الدبلوم الكبير', y:40, i:'🎓', c:'var(--dipl)'}
-        ];
-
-        config.forEach(medal => {
-            const recDate = parseDate(worker.rec);
-            let dueDate = new Date(recDate);
-            dueDate.setFullYear(dueDate.getFullYear() + medal.y);
-            dueDate.setFullYear(dueDate.getFullYear() - worker.milY);
-            dueDate.setMonth(dueDate.getMonth() - worker.milM);
-            dueDate.setDate(dueDate.getDate() - worker.milD);
-
-            const totalDays = (curY*365)+(curM*30)+curD;
-            const reqDays = medal.y*365;
-            const prog = Math.min(100, (totalDays/reqDays)*100);
-            const done = totalDays>=reqDays;
-
-            let remainingText = "";
-            if(!done) {
-                let remY = dueDate.getFullYear() - today.getFullYear();
-                let remM = dueDate.getMonth() - today.getMonth();
-                let remD = dueDate.getDate() - today.getDate();
-                if(remD < 0) { remM--; remD += 30; }
-                if(remM < 0) { remY--; remM += 12; }
-                remainingText = `<div class="medal-remaining">متبقي: ${remY}س ${remM}ش ${remD}ي</div>`;
+        addItem: (catalogItem = null) => {
+            if(!currentCustId) { alert('اختر مشروعاً أولاً!'); return; }
+            let item = {};
+            
+            if(catalogItem) {
+                item = { ...catalogItem, qty: 1, id: Date.now() };
+            } else {
+                const name = document.getElementById('itemName').value;
+                const price = parseFloat(document.getElementById('itemPrice').value);
+                const qty = parseFloat(document.getElementById('itemQty').value) || 1;
+                if(!name || !price) return;
+                item = { id: Date.now(), name, price, qty };
+                
+                // تنظيف الحقول
+                document.getElementById('itemName').value = '';
+                document.getElementById('itemPrice').value = '';
+                document.getElementById('itemQty').value = 1;
             }
 
-            grid.innerHTML += `
-                <div class="medal-box ${done?'done':''}">
-                    <span class="medal-icon">${medal.i}</span>
-                    <span class="medal-name">${medal.n}</span>
-                    <span class="medal-status">${done ? '✅ مستحقة' : 'الاستحقاق: ' + dueDate.toLocaleDateString('en-GB')}</span>
-                    ${remainingText}
-                    <div class="prog-bg"><div class="prog-fill" style="width:${prog}%; background:${done?'var(--success)':medal.c}"></div></div>
-                </div>`;
+            // تجميع الكميات إذا العنصر مكرر
+            if(!localDB.invoices[currentCustId]) localDB.invoices[currentCustId] = [];
+            const exist = localDB.invoices[currentCustId].find(i => i.name === item.name && i.price === item.price);
+            if(exist) {
+                exist.qty += item.qty;
+            } else {
+                localDB.invoices[currentCustId].push(item);
+            }
+            
+            saveToCloud();
+            renderInvoiceTable();
+        },
+
+        deleteItem: (idx) => {
+            localDB.invoices[currentCustId].splice(idx, 1);
+            saveToCloud();
+            renderInvoiceTable();
+        },
+
+        addToCatalog: () => {
+            const name = document.getElementById('catName').value;
+            const price = parseFloat(document.getElementById('catPrice').value);
+            if(!name || !price) return;
+            localDB.catalog.push({id: Date.now(), name, price});
+            document.getElementById('catName').value = '';
+            document.getElementById('catPrice').value = '';
+            saveToCloud();
+            renderCatalog();
+        },
+
+        removeFromCatalog: (idx) => {
+            localDB.catalog.splice(idx, 1);
+            saveToCloud();
+            renderCatalog();
+        }
+    };
+
+    // --- دوال العرض (Rendering) ---
+    function renderUI() {
+        renderCustomersSelect();
+        renderCatalog();
+        if(currentCustId) renderInvoiceTable();
+    }
+
+    function renderCustomersSelect() {
+        const sel = document.getElementById('customerSelect');
+        sel.innerHTML = '<option value="">-- اختر المشروع --</option>';
+        localDB.customers.forEach(c => {
+            const opt = document.createElement('option');
+            opt.value = c.id;
+            opt.textContent = c.name;
+            sel.appendChild(opt);
+        });
+        if(currentCustId) sel.value = currentCustId;
+    }
+
+    function renderInvoiceTable() {
+        const tbody = document.getElementById('invoiceBody');
+        tbody.innerHTML = '';
+        let total = 0;
+        const items = localDB.invoices[currentCustId] || [];
+        
+        items.forEach((item, idx) => {
+            const lineTotal = item.qty * item.price;
+            total += lineTotal;
+            tbody.innerHTML += `
+                <tr>
+                    <td>${item.name}</td>
+                    <td style="text-align:center">${item.qty}</td>
+                    <td>${item.price.toLocaleString()}</td>
+                    <td style="font-weight:bold">${lineTotal.toLocaleString()}</td>
+                    <td class="no-print" style="text-align:center">
+                        <button class="neu-btn danger small" onclick="window.app.deleteItem(${idx})">x</button>
+                    </td>
+                </tr>`;
+        });
+        document.getElementById('grandTotalDisplay').innerText = total.toLocaleString() + ' د.ج';
+        document.getElementById('itemsCount').innerText = items.length + ' بنود';
+    }
+
+    function renderCatalog() {
+        const tbody = document.getElementById('catalogBody');
+        const quickDiv = document.getElementById('quickCatalog');
+        tbody.innerHTML = '';
+        quickDiv.innerHTML = '';
+        
+        localDB.catalog.forEach((item, idx) => {
+            // الجدول
+            tbody.innerHTML += `<tr><td>${item.name}</td><td>${item.price}</td><td><button class="neu-btn danger small" onclick="window.app.removeFromCatalog(${idx})">x</button></td></tr>`;
+            // الأزرار السريعة
+            const btn = document.createElement('button');
+            btn.className = 'neu-btn small';
+            btn.innerText = item.name;
+            btn.onclick = () => window.app.addItem(item);
+            quickDiv.appendChild(btn);
         });
     }
 
-    function updateSelectors() {
-        workers.sort((a, b) => parseDate(a.birth) - parseDate(b.birth));
-        const s = document.getElementById('worker-select'); s.innerHTML = '<option value="">-- اختر الموظف --</option>';
-        workers.forEach(w => s.innerHTML += `<option value="${w.id}">${w.name}</option>`);
-    }
+    // دوال مساعدة عامة
+    window.switchTab = (tabId) => {
+        document.querySelectorAll('[id$="-view"]').forEach(el => el.classList.add('hidden'));
+        document.getElementById(tabId + '-view').classList.remove('hidden');
+        document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+        event.currentTarget.classList.add('active');
+    };
+    
+    window.forceSave = () => saveToCloud();
 
-    function deleteWorker(id) { if(confirm("حذف؟")) { workers = workers.filter(x => x.id!=id); localStorage.setItem('sonelgaz_db', JSON.stringify(workers)); renderAdminList(); } }
+    // تشغيل التطبيق
+    loadFromCloud();
 
-    window.onload = updateSelectors;
 </script>
+
 </body>
 </html>
-
